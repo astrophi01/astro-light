@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "astrolight-app",
-    "slug": "astrolight-app",
+    "name": "Astro Light App",
+    "slug": "astro-light",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "astrolightapp",
+    "scheme": "astrolight",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon"
