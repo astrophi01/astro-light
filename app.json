@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "CACApp",
-    "slug": "CACApp",
+    "name": "AstroLight",
+    "slug": "astro-light",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "cacapp",
+    "scheme": "astrolight",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

@@ -20,6 +20,8 @@ import {
   View,
 } from "react-native";
 
+const LLM_CHAT_URL = process.env.EXPO_PUBLIC_LLM_API_URL;
+
 const handleStorage = async (value: string) => {
   try {
     if (value == "Environment") {
@@ -386,7 +388,7 @@ const Dashboard = () => {
 
     try {
       console.log("Sending a request to Ollama...");
-      const chatResponse = await fetch("http://192.168.86.197:11434/api/chat", {
+      const chatResponse = await fetch(LLM_CHAT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
