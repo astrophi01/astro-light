@@ -595,7 +595,7 @@ const Dashboard = () => {
             },
           ]}
         >
-          <Text style={styles.panelTitle}>Current Conditons</Text>
+          <Text style={styles.panelTitle}>Current Conditions</Text>
           <View style={styles.divider} />
           {isEarned ? null : (
             <Pressable
