@@ -91,8 +91,6 @@ const Dashboard = () => {
   let AstronomyScore = 0;
   let dataMoonNorm = 0;
   let illum = 0;
-  // let AppMagPercentage = 0;
-  // let actualAppMag = 0;
 
   useEffect(() => {
     async function earned() {
@@ -261,7 +259,6 @@ const Dashboard = () => {
     isDay != undefined
   ) {
     //Normalize every data point from 0 to 1
-    //Review temp-to-dew-point-temp spread to make sure it is realistic (10 may be too cautious as 5 degree difference is fine for telescope)
     // 1 is good, 0 is bad
     dataCloudCoverHigh = 1 - cloudCoverHigh / 100;
     dataCloudCoverMid = 1 - cloudCoverMid / 100;
@@ -281,32 +278,13 @@ const Dashboard = () => {
       dataTemp = (temperature + 28.8889) / 50;
     }
 
-    //Moon phase normalization handling
+    //Moon brightness
     const date = new Date();
     const illumination = Illumination(Body.Moon, date);
 
     illum = illumination.phase_fraction * 100;
-    console.log("Apparent magnitude of Moon", illum);
-    // const appMag = illumination.mag;
-    // console.log(appMag);
 
-    //Full moon apparent magnitude: -12.6 or -12.7 (We'll go with -12.7)    New Moon apparent magnitude: -2.5
-    // Convert apparent magnitudes of max (full moon) and min (new moon) into relative flux
-
-    // const minFlux = 10 ** (-0.4 * -2.5);
-    // const maxFlux = 10 ** (-0.4 * -12.7);
-    // const appFlux = 10 ** (-0.4 * appMag);
-
-    //Normalizes apparent magnitude of Moon on scale of 0 to 1, where 1 is max brightness and 0 is min brightness.
-    // const invertedMoonNorm = (appFlux - minFlux) / (maxFlux - minFlux);
-
-    // AppMagPercentage = invertedMoonNorm * 100;
-    // actualAppMag = appMag;
-
-    // dataMoonNorm = 1 - invertedMoonNorm;
-    // console.log("Normalized apparent magnitude rating of Moon", dataMoonNorm);
-
-    //AstroScore Equation. For this, I'm having cloud cover low, mid, and high be 40%, moon brighness having 30%, transparency and seeing each having 10%, temp-dew point spread having 7.5%, and temperature having 2.5%
+    //AstroScore Equation. Cloud cover low, mid, and high is 40%, moon brightness is 30%, transparency and seeing each are 10%, temp-dew point spread is 7.5%, and temperature is 2.5%
     if (isDay == 1) {
       AstronomyScore = 1;
     } else if (dataCloudCoverLow <= 0.1) {
@@ -323,7 +301,6 @@ const Dashboard = () => {
           dataTempDewDiff * 0.075 +
           dataTemp * 0.025);
     }
-    // AstronomyScore = 5;
 
     console.log("AstronomyScore", AstronomyScore);
     console.log(
@@ -376,8 +353,6 @@ const Dashboard = () => {
     Moon phase: ${Moon};
     Percent of the Moon illuminated: ${illum?.toFixed(2)}%;
     Lastly, it is ${isDay ? "daytime" : "nighttime"} for the user currently.`;
-    // Apparent magnitude of the Moon: ${actualAppMag?.toFixed(5)};
-    // Normalized apparent magnitude of Moon on scale of 0 to 1, where 1 is max brightness at full moon and 0 is min brightness at new moon: ${dataMoonNorm?.toFixed(5)};
 
     if (!prompt) {
       return;
@@ -430,7 +405,7 @@ const Dashboard = () => {
     }
   });
 
-  // Used to clear Async Storage. When cleared, progress buttons in badges do not reset to got it! and earned tag doesn't reset to not yet earned
+  // Used to clear Async Storage.
   // useEffect(() => {
   //   clearStorage();
   // });
@@ -555,9 +530,10 @@ const Dashboard = () => {
             />
             <Pressable
               onPress={() => {
+                // CALL TO AI FUNCTION
                 {
                   askChatBot(prompt);
-                } // CALL TO AI FUNCTION
+                }
                 setPrompt(" ");
                 setResponse(" ");
               }}

@@ -1022,7 +1022,7 @@ const badges = () => {
 
   const scrollRef = useRef<ScrollView>(null);
 
-  // Resets all states, meaning badge modules are all closed. Optional
+  // Resets all states, meaning badge modules are all closed.
   useEffect(() => {
     if (!isFocused) {
       setBortlePressed(false);
