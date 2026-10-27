@@ -3,7 +3,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { OrbitControls, Sphere, useTexture } from "@react-three/drei/native";
 import { Canvas } from "@react-three/fiber/native";
 import { CameraType, CameraView } from "expo-camera";
-import { } from "expo-sensors";
+import {} from "expo-sensors";
 import { Suspense, useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -30,21 +30,11 @@ const handleStorage = async (value: string) => {
 
 const Map = () => {
   const [facing, setFacing] = useState<CameraType>("back");
-  // const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const isFocused = useIsFocused();
   const [showCamera, setShowCamera] = useState(false);
   const [showVisualizer, setShowVisualizer] = useState(false);
   const fadeAnimation = useAnimatedValue(0);
-
-  // const [skyData, setSkyData] = useState<{
-  //   uri: string;
-  //   location: Location.LocationObject["coords"];
-  //   timestamp: number;
-  // } | null>(null);
-  // const meshRef = useRef(null);
-
-  // requestPermission();
 
   useEffect(() => {
     fadeAnimation.setValue(0);
@@ -61,90 +51,6 @@ const Map = () => {
       setShowVisualizer(false);
     }
   }, [isFocused]);
-  /*
-  useEffect(() => {
-    if (!isFocused) return;
-
-    let isMounted = true;
-
-    let subscriber: Location.LocationSubscription | null = null;
-
-    async function getLocation() {
-      let { status } = await Location.getForegroundPermissionsAsync();
-      console.log(status);
-      if (status !== "granted") {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted")
-          return setErrorMsg("Permission to access location denied");
-      }
-
-      subscriber = await Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.High,
-          timeInterval: 1000,
-          distanceInterval: 1,
-        },
-        (liveLocation) => {
-          if (isMounted) {
-            setLocation(liveLocation);
-          }
-        },
-      );
-      if (!isMounted) {
-        subscriber.remove();
-      }
-    }
-
-    getLocation();
-
-    return () => {
-      isMounted = false;
-      if (subscriber) {
-        subscriber.remove();
-      }
-    };
-  }, [isFocused]);
-
-  async function takePicture() {
-    if (!location) {
-      console.log("Location not ready");
-      return;
-    }
-
-    if (cameraRef.current) {
-      const photo = await cameraRef.current.takePictureAsync();
-      setShowVisualizer(true);
-      setSkyData({
-        uri: photo.uri,
-        location: location.coords,
-        timestamp: location.timestamp,
-      });
-    }
-  }
-*/
-  // useEffect(() => {
-  //   console.log(skyData);
-  // }, [skyData]);
-
-  // function toggleFacing() {
-  //   setFacing((current) => (current === "back" ? "front" : "back"));
-  // }
-
-  // if (!permission) {
-  //   return <View style={styles.container}></View>;
-  // }
-
-  // if (!permission.granted) {
-  //   return (
-  //     <View style={styles.container}>
-  //       <Text style={styles.notGranted}>
-  //         Camera permissions not granted. Camera access needed to use
-  //         visualizer.
-  //       </Text>
-  //       <Button onPress={requestPermission} title="Grant Permission" />
-  //     </View>
-  //   );
-  // }
 
   if (!showCamera) {
     return (
@@ -173,25 +79,9 @@ const Map = () => {
       </View>
     );
   }
-  /*
-  if (showCamera && !showVisualizer) {
-    return (
-      <View style={styles.container}>
-        <CameraView ref={cameraRef} facing={facing} style={styles.camera} />
-        <TouchableOpacity
-          onPress={takePicture}
-          disabled={!location}
-          style={[styles.takePic, { opacity: location ? 1 : 0.5 }]}
-        />
-        <TouchableOpacity onPress={toggleFacing} style={styles.facing}>
-          <Ionicons name="refresh" size={35} color="white" />
-        </TouchableOpacity>
-      </View>
-    );
-  }*/
 
   function Planetarium() {
-    // Need to use downloadAsync here to avoid weird crashing or making user wait for exr file to download and parse
+    // If want to load exr image:
     // const asset = Asset.fromModule(require("../../assets/images/NASAexr.exr"));
 
     // const image = useLoader(EXRLoader, asset.localUri || asset.uri);
@@ -243,7 +133,6 @@ const Map = () => {
 };
 
 const styles = StyleSheet.create({
-  //Fix the absolute positioning
   container: {
     flex: 1,
     justifyContent: "center",
@@ -297,44 +186,6 @@ const styles = StyleSheet.create({
   notGranted: {
     textAlign: "center",
   },
-  // takePic: {
-  //   width: 90,
-  //   height: 90,
-  //   borderRadius: 45,
-  //   backgroundColor: "white",
-  //   borderColor: "rgb(67, 67, 67)",
-  //   borderWidth: 5,
-  //   position: "absolute",
-  //   marginTop: 670,
-  // },
-  // description: {
-  //   marginTop: 20,
-  //   marginBottom: 20,
-  //   fontSize: 20,
-  //   fontFamily: "SegoeUI",
-  //   fontWeight: "bold",
-  // },
-
-  // facing: {
-  //   position: "absolute",
-  //   top: 740,
-  //   left: 285,
-  // },
-  //  visualizerTitle: {
-  //   fontSize: 50,
-  //   fontFamily: "SegoeUI",
-  //   fontWeight: "bold",
-  //   textAlign: "center",
-  //   padding: 20,
-  //   backgroundColor: "lightblue",
-  //   borderRadius: 20,
-  //   marginTop: 60,
-  //   width: "90%",
-  // },
-  // camera: {
-  //   width: "100%",
-  //   height: "100%",
-  // },
 });
 
 export default Map;
